@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
     <color name="black">#16FFEAE0</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#FF16EA59</color>
 
     <color name="toolbar_color">#FFAEF509</color>
-    <color name="nav_header">#FFEAA00C</color>
+    <color name="nav_header">#455A64</color>
+
+    <color name="dashboard_color">#D39B0924</color>
+    <color name="income_color">#FF240740</color>
+    <color name="expense_color">#FF6C042E</color>
+    <color name="holo_red_dark">#8B0000</color>
 </resources>

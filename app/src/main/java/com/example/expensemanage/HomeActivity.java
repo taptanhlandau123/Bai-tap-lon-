@@ -2,6 +2,8 @@ package com.example.expensemanage;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,20 +18,32 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private BottomNavigationView bottomNavigationView;
+    private FrameLayout frameLayout;
+
+    //Fragment
+
+    private DashBoardFragment dashBoardFragment;
+    private IncomeFragment incomeFragment;
+    private ExpenseFragment expenseFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitle("Expense Manager");
         setSupportActionBar(toolbar);
 
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        frameLayout = findViewById(R.id.main_frame);
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -41,7 +55,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.naView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        dashBoardFragment = new DashBoardFragment();
+        incomeFragment = new IncomeFragment();
+        expenseFragment = new ExpenseFragment();
+        setFragment(dashBoardFragment);
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.dashboard) {
+                    setFragment(dashBoardFragment);
+                    bottomNavigationView.setItemBackgroundResource(R.color.dashboard_color);
+                    return true;
+                } else if (itemId == R.id.income) {
+                    setFragment(incomeFragment);
+                    bottomNavigationView.setItemBackgroundResource(R.color.income_color);
+                    return true;
+                } else if (itemId == R.id.expense) {
+                    setFragment(expenseFragment);
+                    bottomNavigationView.setItemBackgroundResource(R.color.expense_color);
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+        });
+
     }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -56,11 +106,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
 
         if (itemId == R.id.dashboard) {
-            // Load Dashboard Fragment
+            fragment = new DashBoardFragment();
         } else if (itemId == R.id.income) {
-            // Load Income Fragment
+            fragment = new IncomeFragment();
         } else if (itemId == R.id.expense) {
-            // Load Expense Fragment
+            fragment = new ExpenseFragment();
         }
 
         if(fragment != null){

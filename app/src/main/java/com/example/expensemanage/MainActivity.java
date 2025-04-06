@@ -42,7 +42,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth=FirebaseAuth.getInstance();
+
+        if(mAuth.getCurrentUser() != null){
+            startActivity(new Intent(MainActivity.this,HomeActivity.class));
+            finish();
+        }
+
         mDialog=new ProgressDialog(this);
+
         loginDetails();
     }
     private void loginDetails(){
@@ -75,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             mDialog.dismiss();
-                            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                            startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                            finish();
                             Toast.makeText(getApplicationContext(),"Login Sucessful",Toast.LENGTH_SHORT).show();
                         }else{
                             mDialog.dismiss();
@@ -92,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
         mSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegistrationActivity.class));
+                startActivity(new Intent(MainActivity.this,RegistrationActivity.class));
+                finish();
             }
         });
         //Reset password activity
@@ -100,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
         mForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ResetActivity.class));
+                startActivity(new Intent(MainActivity.this,ResetActivity.class));
+                finish();
             }
         });
     }
