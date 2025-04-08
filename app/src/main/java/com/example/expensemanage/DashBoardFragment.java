@@ -286,20 +286,23 @@ public class DashBoardFragment extends Fragment {
                     type.setError("Type is Required");
                     return;
                 }
-                int ouramount = Integer.parseInt(tmAmount);
+                int inamount = Integer.parseInt(tmAmount);
 
                 if(TextUtils.isEmpty(tmNote)){
                     note.setError("Note is Required");
                     return;
                 }
+
+
                 String id = mExpenseDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(ouramount, tmType, id, tmNote, mDate);
+                Data data = new Data(inamount, tmType, id, tmNote, mDate);
                 mExpenseDatabase.child(id).setValue(data);
                 Toast.makeText(getActivity(), "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+
 
                 ftAnimation();
+                dialog.dismiss();
             }
 
         });

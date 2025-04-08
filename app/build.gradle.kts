@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
-//    implementation(libs.firebase.ui.database)
+    implementation(libs.firebase.ui.database)
     implementation(libs.cardview)
     implementation(libs.core.ktx)
     implementation(libs.annotation)
