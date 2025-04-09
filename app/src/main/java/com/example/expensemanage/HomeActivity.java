@@ -1,5 +1,6 @@
 package com.example.expensemanage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -20,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,10 +29,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private FrameLayout frameLayout;
 
     //Fragment
-
     private DashBoardFragment dashBoardFragment;
     private IncomeFragment incomeFragment;
     private ExpenseFragment expenseFragment;
+
+    private FirebaseAuth mAuth;
+
 
 
     @Override
@@ -41,6 +45,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitle("Expense Manager");
         setSupportActionBar(toolbar);
+
+        mAuth= FirebaseAuth.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         frameLayout = findViewById(R.id.main_frame);
@@ -77,10 +83,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     setFragment(expenseFragment);
                     bottomNavigationView.setItemBackgroundResource(R.color.expense_color);
                     return true;
-                } else {
+                }else{
                     return false;
                 }
-
             }
         });
 
@@ -125,6 +130,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.logout) {
+            mAuth.signOut();
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
         displaySelectedListener(item.getItemId());
         return true;
     }

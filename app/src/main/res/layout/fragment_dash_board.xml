@@ -33,7 +33,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
+                        android:textColor="@color/holo_red_dark"
                         android:text="Income"
                         />
 
@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/income_set_result"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
+                        android:textColor="@color/holo_red_dark"
                         android:text="000.00"
                         />
 
@@ -104,6 +104,53 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Income:"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:padding="10dp"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/recycler_income"
+                    android:contentDescription="Income"
+                    android:layout_height="200dp">
+
+
+                </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Expense:"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:padding="10dp"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/recycler_expense"
+                    android:contentDescription="Expense"
+                    android:layout_height="200dp">
+
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
+
+
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -184,6 +231,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="#6A1B9A"
+            android:contentDescription="TODO"
             app:fabSize="normal"
             android:src="@drawable/income"
             android:layout_height="wrap_content"

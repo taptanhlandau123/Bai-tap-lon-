@@ -99,7 +99,7 @@ public class ExpenseFragment extends Fragment {
 
                     expenseSum += data.getAmount();
                     String strExpensesum = String.valueOf(expenseSum);
-                    expenseSumResult.setText(strExpensesum);
+                    expenseSumResult.setText(strExpensesum+".00");
                 }
             }
 
