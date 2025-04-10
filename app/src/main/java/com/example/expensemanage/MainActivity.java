@@ -10,17 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,28 +29,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView mSignup;
     private ProgressDialog mDialog;
 
-    //Firebase....
-
     private FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mDialog = new ProgressDialog(this);
 
-        if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(MainActivity.this,HomeActivity.class));
-            finish();
-        }
-
-        mDialog=new ProgressDialog(this);
-
-        loginDetails();
-    }
-    private void loginDetails(){
         mEmail = findViewById(R.id.email_login);
         mPass = findViewById(R.id.password_login);
         btnLogin = findViewById(R.id.btn_login);
@@ -65,53 +51,63 @@ public class MainActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String pass = mPass.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Email required");
                     return;
                 }
-                if(TextUtils.isEmpty(pass)){
-                    mPass.setError("Password Required");
 
+                if (TextUtils.isEmpty(pass)) {
+                    mPass.setError("Password required");
+                    return;
                 }
-                mDialog.setMessage("Processing..");
+
+                mDialog.setMessage("Logging in...");
                 mDialog.show();
 
-
-                mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            mDialog.dismiss();
-                            startActivity(new Intent(MainActivity.this,HomeActivity.class));
-                            finish();
-                            Toast.makeText(getApplicationContext(),"Login Sucessful",Toast.LENGTH_SHORT).show();
-                        }else{
-                            mDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Login Failed",Toast.LENGTH_SHORT).show();
-
+                        mDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            checkWalletInFirebase();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
 
-        //Registration Activity
-
         mSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,RegistrationActivity.class));
+                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
                 finish();
             }
         });
-        //Reset password activity
 
         mForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ResetActivity.class));
+                startActivity(new Intent(MainActivity.this, ResetActivity.class));
                 finish();
             }
+        });
+    }
+
+    private void checkWalletInFirebase() {
+        String uid = mAuth.getCurrentUser().getUid();
+        DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
+
+        walletRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                // Nếu đã có ví -> Home
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            } else {
+                // Nếu chưa có ví -> Tạo ví
+                startActivity(new Intent(MainActivity.this, CreateWalletActivity.class));
+            }
+            finish();
         });
     }
 }

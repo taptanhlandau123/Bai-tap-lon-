@@ -138,18 +138,22 @@ public class IncomeFragment extends Fragment {
                 holder.setDate(model.getDate());
                 holder.setAmount(model.getAmount());
 
-                int currentposition = holder.getAdapterPosition();
 
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        post_key=getRef(currentposition).getKey();
+                        int currentPosition = holder.getBindingAdapterPosition();
 
-                        type=model.getType();
-                        note=model.getNote();
-                        amount=model.getAmount();
+                        if (currentPosition != RecyclerView.NO_POSITION) {
+                            post_key = getRef(currentPosition).getKey();
 
-                        updateDataItem();
+                            type = model.getType();
+                            note = model.getNote();
+                            amount = model.getAmount();
+
+                            updateDataItem();
+                        }
+
                     }
                 });
             }

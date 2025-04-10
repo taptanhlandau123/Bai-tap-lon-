@@ -5,11 +5,17 @@
     android:id="@+id/main"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/background_color"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:text="Sign in"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -48,6 +54,7 @@
                 android:textColorHint="@color/white"
                 android:padding="15dp"
                 android:background="@drawable/edittext_background"
+                android:inputType="textPassword"
                 android:hint="Password:" />
 
 
@@ -56,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Login"
+                android:text="Sign in"
                 android:background="@drawable/edittext_background"
                 android:textColor="@color/white"
                 android:textAppearance="?android:textAppearanceMedium" />
@@ -66,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="#FFBB86FC"
                 android:padding="5dp"
                 android:text="Forget Password" />
 
@@ -76,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
-                android:textColor="@android:color/white"
+                android:textColor="#FFBB86FC"
                 android:text="Dont't have a account? Sign up here" />
 
         </LinearLayout>

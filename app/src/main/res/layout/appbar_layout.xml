@@ -19,8 +19,20 @@
             android:layout_height="?attr/actionBarSize">
 
 
+
+
         </androidx.appcompat.widget.Toolbar>
 
+
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số dư của bạn: 0 VND"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="16dp" />
         <include layout="@layout/content_main"/>
 
     </com.google.android.material.appbar.AppBarLayout>
