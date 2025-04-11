@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/dashboard"
+
+    <item
+        android:id="@+id/dashboard"
         android:title="Dashboard"
-        android:icon="@drawable/ic_action_name"
-        />
-    <item android:id="@+id/income"
+        android:icon="@drawable/ic_action_name" />
+
+    <item
+        android:id="@+id/income"
         android:title="Income"
-        android:icon="@drawable/income"
-        />
-    <item android:id="@+id/expense"
+        android:icon="@drawable/income" />
+
+    <item
+        android:id="@+id/expense"
         android:title="Expense"
-        android:icon="@drawable/expense"
-        />
-    <item android:id="@+id/logout"
+        android:icon="@drawable/expense" />
+
+    <!-- 👇 Mục mới: Ví của tôi -->
+    <item
+        android:id="@+id/wallet"
+        android:title="Ví của tôi"
+        android:icon="@drawable/wallet" />
+
+    <item
+        android:id="@+id/logout"
         android:title="Logout"
-        android:icon="@drawable/logout"
-        />"
+        android:icon="@drawable/logout" />
+
 </menu>

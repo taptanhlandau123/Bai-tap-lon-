@@ -21,6 +21,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -162,7 +164,52 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
+        if (itemId == R.id.wallet) {
+            showWalletOptions();
+            return true;
+        }
         displaySelectedListener(item.getItemId());
         return true;
     }
+    private void showWalletOptions() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ví của tôi")
+                .setItems(new CharSequence[]{"Sửa ví", "Xóa ví"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                startActivity(new Intent(HomeActivity.this, CreateWalletActivity.class));
+                                break;
+                            case 1:
+                                confirmDeleteWallet();
+                                break;
+                        }
+                    }
+                });
+        builder.show();
+    }
+    private void confirmDeleteWallet() {
+        new AlertDialog.Builder(this)
+                .setTitle("Xác nhận")
+                .setMessage("Bạn có chắc muốn xóa ví không?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    FirebaseDatabase.getInstance().getReference("wallets").child(uid)
+                            .removeValue()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(this, "Đã xóa ví", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(this, CreateWalletActivity.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(this, "Lỗi khi xóa ví", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+
 }
