@@ -5,9 +5,9 @@
 
     <color name="black">#16FFEAE0</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#FF16EA59</color>
+    <color name="colorPrimary">#25E762</color>
 
-    <color name="toolbar_color">#FFAEF509</color>
+    <color name="toolbar_color">#60952D</color>
     <color name="nav_header">#455A64</color>
 
     <color name="dashboard_color">#D39B0924</color>
