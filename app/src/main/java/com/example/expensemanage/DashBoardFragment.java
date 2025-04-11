@@ -24,6 +24,10 @@ import android.widget.Toast;
 import com.example.expensemanage.model.Data;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,81 +38,97 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+
+
+import android.graphics.Color;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class DashBoardFragment extends Fragment {
 
+    private Animation FadOpen, FadeClose;
+
+    private TextView fab_income_txt;
+    private TextView fab_expense_txt;
     private FloatingActionButton fab_main_btn;
     private FloatingActionButton fab_income_btn;
     private FloatingActionButton fab_expense_btn;
 
-    //Floating Action Button
-
-    private TextView fab_income_txt;
-    private TextView fab_expense_txt;
-
-    //boolen
-    private  boolean isOpen = false;
-
-    //Animation
-
-    private Animation FadOpen, FadeClose;
-
-    //DashBoard income and expense result..
-
-    private TextView totalIncomeResult;
-    private TextView totalExpenseResult;
-
-    //Firebase...
-    private FirebaseAuth mAuth;
-    private DatabaseReference mIncomeDatabase;
-    private DatabaseReference mExpenseDatabase;
-
-    //Recyclerview
     private RecyclerView mRecyclerIncome;
     private RecyclerView mRecyclerExpense;
 
+    private BarChart barChart;
+    private FirebaseAuth mAuth;
+    private DatabaseReference incomeRef, expenseRef;
+    private float totalIncome = 0;
+    private float totalExpense = 0;
 
+    private TextView income_set_result, expense_set_result;
 
-    public DashBoardFragment() {
+    private FloatingActionButton fbMainPlusBtn, incomeFtBtn, expenseFtBtn;
+    private TextView incomeFtText, expenseFtText;
+    private boolean isOpen = false;
 
-    }
+    public DashBoardFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View myview = inflater.inflate(R.layout.fragment_dash_board, container, false);
+        View view = inflater.inflate(R.layout.fragment_dash_board, container, false);
 
-        mAuth=FirebaseAuth.getInstance();
+        barChart = view.findViewById(R.id.barChart);
+        income_set_result = view.findViewById(R.id.income_set_result);
+        expense_set_result = view.findViewById(R.id.expense_set_result);
+
+        mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
 
-        mIncomeDatabase= FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
-        mExpenseDatabase = FirebaseDatabase.getInstance().getReference().child("ExpenseDatabase").child(uid);
+        incomeRef = FirebaseDatabase.getInstance().getReference("IncomeData").child(uid);
+        expenseRef = FirebaseDatabase.getInstance().getReference("ExpenseDatabase").child(uid);
 
-        mIncomeDatabase.keepSynced(true);
-        mExpenseDatabase.keepSynced(true);
+        loadIncomeData();
 
-        //Connecting Floating Action Button
-        fab_main_btn = myview.findViewById(R.id.fb_main_plus_btn);
-        fab_income_btn = myview.findViewById(R.id.income_Ft_btn);
-        fab_expense_btn = myview.findViewById(R.id.expense_Ft_btn);
+        incomeRef.keepSynced(true);
+        expenseRef.keepSynced(true);
 
-        //Connecting TextView
+        fab_main_btn = view.findViewById(R.id.fb_main_plus_btn);
+        fab_income_btn = view.findViewById(R.id.income_Ft_btn);
+        fab_expense_btn = view.findViewById(R.id.expense_Ft_btn);
 
-        fab_income_txt=myview.findViewById(R.id.income_ft_text);
-        fab_expense_txt=myview.findViewById(R.id.expense_ft_text);
+        fab_income_txt=view.findViewById(R.id.income_ft_text);
+        fab_expense_txt=view.findViewById(R.id.expense_ft_text);
 
-        //Total income and expense result
-        totalIncomeResult=myview.findViewById(R.id.income_set_result);
-        totalExpenseResult=myview.findViewById(R.id.expense_set_result);
 
-        //Recycler
-        mRecyclerIncome=myview.findViewById(R.id.recycler_income);
-        mRecyclerExpense=myview.findViewById(R.id.recycler_expense);
-
-        //Animation connection
+        mRecyclerIncome=view.findViewById(R.id.recycler_income);
+        mRecyclerExpense=view.findViewById(R.id.recycler_expense);
 
         FadOpen = AnimationUtils.loadAnimation(getActivity(),R.anim.fade_open);
         FadeClose = AnimationUtils.loadAnimation(getActivity(),R.anim.fade_close);
@@ -144,9 +164,8 @@ public class DashBoardFragment extends Fragment {
             }
 
         });
-
         //Caculate total income
-        mIncomeDatabase.addValueEventListener(new ValueEventListener() {
+        incomeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int totalsum = 0;
@@ -154,7 +173,7 @@ public class DashBoardFragment extends Fragment {
                     Data data = dataSnapshot.getValue(Data.class);
                     totalsum+=data.getAmount();
                     String strResult = String.valueOf(totalsum);
-                    totalIncomeResult.setText(strResult+".00");
+                    income_set_result.setText(strResult+".00");
                 }
             }
 
@@ -163,9 +182,7 @@ public class DashBoardFragment extends Fragment {
 
             }
         });
-
-        //Caculate total expense
-        mExpenseDatabase.addValueEventListener(new ValueEventListener() {
+        expenseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int totalExpense = 0;
@@ -173,7 +190,7 @@ public class DashBoardFragment extends Fragment {
                     Data data = dataSnapshot.getValue(Data.class);
                     totalExpense+=data.getAmount();
                     String strResult = String.valueOf(totalExpense);
-                    totalExpenseResult.setText(strResult);
+                    expense_set_result.setText(strResult);
                 }
             }
 
@@ -183,7 +200,6 @@ public class DashBoardFragment extends Fragment {
             }
         });
 
-        //RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
@@ -196,13 +212,9 @@ public class DashBoardFragment extends Fragment {
         mRecyclerExpense.setHasFixedSize(true);
         mRecyclerExpense.setLayoutManager(layoutManagerExpense);
 
-        return myview;
 
-
+        return view;
     }
-
-    //Floating Action Button
-
     private void ftAnimation(){
         if(isOpen){
             fab_income_btn.startAnimation(FadeClose);
@@ -229,7 +241,6 @@ public class DashBoardFragment extends Fragment {
         }
 
     }
-
     private void addData() {
         //Fab Button income
 
@@ -247,7 +258,6 @@ public class DashBoardFragment extends Fragment {
             }
         });
     }
-
     public void  incomeDataInsert(){
         AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
 
@@ -287,10 +297,10 @@ public class DashBoardFragment extends Fragment {
                     edtNote.setError("Note is Required");
                     return;
                 }
-                String id = mIncomeDatabase.push().getKey();
+                String id = incomeRef.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
                 Data data = new Data(ouramount, type,id, note, mDate);
-                mIncomeDatabase.child(id).setValue(data);
+                incomeRef.child(id).setValue(data);
                 Toast.makeText(getActivity(), "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
                 ftAnimation();
                 dialog.dismiss();
@@ -308,7 +318,6 @@ public class DashBoardFragment extends Fragment {
         });
         dialog.show();
     }
-
     public void expenseDataInsert(){
         AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -347,10 +356,10 @@ public class DashBoardFragment extends Fragment {
                 }
 
 
-                String id = mExpenseDatabase.push().getKey();
+                String id = expenseRef.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
                 Data data = new Data(inamount, tmType, id, tmNote, mDate);
-                mExpenseDatabase.child(id).setValue(data);
+                expenseRef.child(id).setValue(data);
                 Toast.makeText(getActivity(), "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
 
 
@@ -374,7 +383,7 @@ public class DashBoardFragment extends Fragment {
         super.onStart();
         FirebaseRecyclerAdapter<Data,IncomeViewHolder> incomeAdapter=new FirebaseRecyclerAdapter<Data, IncomeViewHolder>(
                 new FirebaseRecyclerOptions.Builder<Data>()
-                        .setQuery(mIncomeDatabase, Data.class)
+                        .setQuery(incomeRef, Data.class)
                         .build()
         ) {
             @Override
@@ -396,7 +405,7 @@ public class DashBoardFragment extends Fragment {
 
         FirebaseRecyclerAdapter<Data,ExpenseViewHolder>expenseAdapter=new FirebaseRecyclerAdapter<Data, ExpenseViewHolder>(
                 new FirebaseRecyclerOptions.Builder<Data>()
-                        .setQuery(mExpenseDatabase, Data.class)
+                        .setQuery(expenseRef, Data.class)
                         .build()
         ) {
             @Override
@@ -417,7 +426,6 @@ public class DashBoardFragment extends Fragment {
         expenseAdapter.startListening();
     }
 
-    //For Income Data
     public static class IncomeViewHolder extends RecyclerView.ViewHolder{
         View mView;
         public IncomeViewHolder(@NonNull View itemView) {
@@ -439,7 +447,6 @@ public class DashBoardFragment extends Fragment {
         }
     }
 
-    //For Expense Data
     public static class ExpenseViewHolder extends RecyclerView.ViewHolder{
         View myViewExpense;
         public ExpenseViewHolder(@NonNull View itemView) {
@@ -459,5 +466,85 @@ public class DashBoardFragment extends Fragment {
             TextView mDate=myViewExpense.findViewById(R.id.date_expense_ds);
             mDate.setText(date);
         }
+    }
+
+
+
+    private void loadIncomeData() {
+        totalIncome = 0;
+
+        incomeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    Long amount = item.child("amount").getValue(Long.class);
+                    if (amount != null) {
+                        totalIncome += amount;
+                    }
+                }
+                loadExpenseData(); // gọi tiếp khi đã xong income
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void loadExpenseData() {
+        totalExpense = 0;
+
+        expenseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    Long amount = item.child("amount").getValue(Long.class);
+                    if (amount != null) {
+                        totalExpense += amount;
+                    }
+                }
+
+                income_set_result.setText(String.format("%.0f", totalIncome));
+                expense_set_result.setText(String.format("%.0f", totalExpense));
+                updateBarChart();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void updateBarChart() {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        entries.add(new BarEntry(0f, totalIncome));
+        entries.add(new BarEntry(1f, totalExpense));
+
+        BarDataSet dataSet = new BarDataSet(entries, "Thu vs Chi");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextSize(16f);
+
+        BarData data = new BarData(dataSet);
+        barChart.setData(data);
+
+        barChart.getDescription().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                if (Float.compare(value, 0f) == 0) {
+                    return "Thu";
+                } else if (Float.compare(value, 1f) == 0) {
+                    return "Chi";
+                } else {
+                    return "";
+                }
+            }
+        });
+
+        barChart.invalidate();
     }
 }

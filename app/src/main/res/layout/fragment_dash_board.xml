@@ -101,6 +101,11 @@
 
     </androidx.cardview.widget.CardView>
 
+    <include layout="@layout/expense_chart"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -16,8 +16,6 @@
         android:layout_marginStart="-1dp"
         android:layout_marginLeft="-1dp"
         android:layout_marginBottom="-3dp">
-
-
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

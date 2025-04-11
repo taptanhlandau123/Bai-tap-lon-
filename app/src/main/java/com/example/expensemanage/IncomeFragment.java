@@ -100,7 +100,7 @@ public class IncomeFragment extends Fragment {
                     Data data = mysnapshot.getValue(Data.class);
                     totalvalue+= data.getAmount();
                     String stTotal = String.valueOf(totalvalue);
-                    incomeTotalSum.setText(stTotal+".00");
+                    incomeTotalSum.setText(stTotal+" VNĐ");
 
                 }
             }
