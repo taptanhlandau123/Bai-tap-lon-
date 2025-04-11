@@ -9,11 +9,16 @@
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="-2dp"
-        android:layout_marginLeft="-2dp"></FrameLayout>
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginBottom="-3dp">
+
+
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

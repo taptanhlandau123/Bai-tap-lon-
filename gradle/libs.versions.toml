@@ -17,6 +17,7 @@ kotlin = "2.0.0"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.10.1"
 composeBom = "2024.04.01"
+mpandroidchart = "3.1.0"
 rules = "1.5.0"
 runner = "1.6.2"
 
@@ -39,6 +40,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 rules = { module = "androidx.test:rules", version.ref = "rules" }
 runner = { module = "androidx.test:runner", version.ref = "runner" }
 ui = { group = "androidx.compose.ui", name = "ui" }
