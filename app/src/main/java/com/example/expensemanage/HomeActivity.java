@@ -210,6 +210,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 .setNegativeButton("Hủy", null)
                 .show();
     }
+    public void updateBalanceText(String newBalanceText) {
+        TextView tvBalance = findViewById(R.id.tv_balance);
+        if (tvBalance != null) {
+            tvBalance.setText("Số dư của bạn: " + newBalanceText);
+        }
+    }
 
 
 }

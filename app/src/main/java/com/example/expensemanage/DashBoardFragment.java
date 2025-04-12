@@ -489,7 +489,6 @@ public class DashBoardFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
-
     private void loadExpenseData() {
         totalExpense = 0;
 
@@ -505,6 +504,15 @@ public class DashBoardFragment extends Fragment {
 
                 income_set_result.setText(String.format("%.0f", totalIncome));
                 expense_set_result.setText(String.format("%.0f", totalExpense));
+
+                float balance = totalIncome - totalExpense;
+                String balanceText = String.format("%,.0f VND", balance);
+
+                // ✅ Cập nhật giao diện ở HomeActivity
+                if (getActivity() instanceof HomeActivity) {
+                    ((HomeActivity) getActivity()).updateBalanceText(balanceText);
+                }
+
                 updateBarChart();
             }
 
@@ -512,6 +520,8 @@ public class DashBoardFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
+
+
 
     private void updateBarChart() {
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -547,4 +557,5 @@ public class DashBoardFragment extends Fragment {
 
         barChart.invalidate();
     }
+
 }
