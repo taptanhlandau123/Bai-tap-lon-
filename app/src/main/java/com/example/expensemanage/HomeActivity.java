@@ -27,6 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -83,20 +86,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String uid = mAuth.getCurrentUser().getUid();
         DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
 
-//        walletRef.get().addOnCompleteListener(task -> {
-//            if (task.isSuccessful() && task.getResult().exists()) {
-//                String name = task.getResult().child("wallet_name").getValue(String.class);
-//                Float balance = task.getResult().child("wallet_balance").getValue(Float.class);
-//                if (name != null && balance != null) {
-//                    tvBalance.setText(String.format("%s: %,.0f VND", name, balance));
-//                }
-//            } else {
-//                Toast.makeText(this, "Không thể lấy dữ liệu ví", Toast.LENGTH_SHORT).show();
-//                if (task.getException() != null) {
-//                    task.getException().printStackTrace(); // In lỗi ra Logcat
-//                }
-//            }
-//        });
+
 
         walletRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -132,7 +122,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationView.setItemBackgroundResource(R.color.expense_color);
                 return true;
             }
+            else if (itemId == R.id.create_budget) {
+                checkBudgetThenNavigate(); // 👈 gọi hàm kiểm tra ngân sách
+                bottomNavigationView.setItemBackgroundResource(R.color.dashboard_color);
+                return true;
+            }
             return false;
+        });
+
+
+    }
+    private void checkBudgetThenNavigate() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String currentMonth = new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(new Date());
+        DatabaseReference budgetRef = FirebaseDatabase.getInstance().getReference("budgets").child(uid).child(currentMonth);
+
+        budgetRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Đã có ngân sách -> mở trang xem
+                    startActivity(new Intent(HomeActivity.this, ViewBudgetActivity.class));
+                } else {
+                    // Chưa có -> mở trang tạo
+                    startActivity(new Intent(HomeActivity.this, CreateBudgetActivity.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(HomeActivity.this, "Không thể kiểm tra ngân sách", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -190,6 +210,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             showWalletOptions();
             return true;
         }
+
+        //  Khi click vào "Ngân Sách" trên nav menu
+        if (itemId == R.id.create_budget) {
+            checkBudgetThenNavigate(); // gọi hàm điều hướng tự động như bên dưới
+            return true;
+        }
+
         displaySelectedListener(item.getItemId());
         return true;
     }

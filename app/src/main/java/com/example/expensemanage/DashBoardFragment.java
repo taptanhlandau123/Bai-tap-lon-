@@ -1,6 +1,6 @@
 package com.example.expensemanage;
 
-import android.app.AlertDialog;
+import  android.app.AlertDialog;
 import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 
@@ -40,7 +40,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 
 
 
@@ -369,7 +371,41 @@ public class DashBoardFragment extends Fragment {
                 ftAnimation();
 
                 //Cập nhật ví
+                // Cập nhật ví
                 updateWalletBalance(-inamount);
+
+// Cập nhật ngân sách
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String currentMonth = new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(new Date());
+                DatabaseReference budgetRef = FirebaseDatabase.getInstance()
+                        .getReference("budgets")
+                        .child(uid)
+                        .child(currentMonth);
+
+                budgetRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            Long budgetAmount = snapshot.child("amount").getValue(Long.class);
+                            Long spent = snapshot.child("spent").getValue(Long.class);
+
+                            long currentSpent = (spent != null) ? spent : 0;
+                            long newSpent = currentSpent + inamount;
+
+                            budgetRef.child("spent").setValue(newSpent);
+
+                            if (budgetAmount != null && newSpent > budgetAmount) {
+                                Toast.makeText(getActivity(), "⚠️ Bạn đã vượt quá ngân sách tháng này!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Log lỗi nếu cần
+                    }
+                });
+
                 dialog.dismiss();
             }
 
@@ -576,5 +612,6 @@ public class DashBoardFragment extends Fragment {
             }
         });
     }
+
 
 }

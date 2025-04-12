@@ -15,6 +15,11 @@
         android:id="@+id/expense"
         android:title="Expense"
         android:icon="@drawable/expense" />
+    <item
+        android:id="@+id/create_budget"
+        android:title="Ngân Sách"
+        android:icon="@drawable/budget" />
+
 
     <!-- 👇 Mục mới: Ví của tôi -->
     <item

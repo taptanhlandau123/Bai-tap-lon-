@@ -9,6 +9,7 @@
 
     <color name="toolbar_color">#60952D</color>
     <color name="nav_header">#455A64</color>
+    <color name="red">#F44336</color>
 
     <color name="dashboard_color">#D39B0924</color>
     <color name="income_color">#FF240740</color>
