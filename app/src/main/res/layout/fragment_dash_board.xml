@@ -74,7 +74,7 @@
                         android:id="@+id/income_set_result"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/holo_red_dark"
-                        android:text="000.00"
+                        android:text="VNĐ"
                         />
 
                 </RelativeLayout>
@@ -90,7 +90,7 @@
                         android:id="@+id/expense_set_result"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/holo_red_dark"
-                        android:text="000.00"
+                        android:text="VNĐ"
                         />
 
                 </RelativeLayout>

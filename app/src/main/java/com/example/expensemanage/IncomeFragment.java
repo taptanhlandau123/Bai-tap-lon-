@@ -105,11 +105,14 @@ public class IncomeFragment extends Fragment {
                 }
             }
 
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+
 
         return myview;
     }
@@ -219,18 +222,29 @@ public class IncomeFragment extends Fragment {
             public void onClick(View v) {
                 type= edtType.getText().toString().trim();
                 note= edtNote.getText().toString().trim();
-
                 String mAmount = String.valueOf(amount);
                 mAmount = edtAmount.getText().toString().trim();
 
                 int mAmountInt = Integer.parseInt(mAmount);
-
                 String mDate = DateFormat.getDateInstance().format(new Date());
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
+
+                walletRef.child("wallet_balance").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Float currentBalance = task.getResult().getValue(Float.class);
+                        if (currentBalance != null) {
+                            // Cập nhật số dư: trừ số cũ, cộng số mới
+                            float newBalance = currentBalance - amount + mAmountInt;
+                            walletRef.child("wallet_balance").setValue(newBalance);
+                        }
+                    }
+                });
 
                 Data data = new Data(mAmountInt, type, post_key, note, mDate);
 
                 mIncomeDatabase.child(post_key).setValue(data);
-
                 dialog.dismiss();
 
             }
@@ -238,6 +252,22 @@ public class IncomeFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                // Tham chiếu đến ví hiện tại
+                DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
+
+                walletRef.child("wallet_balance").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Float currentBalance = task.getResult().getValue(Float.class);
+                        if (currentBalance != null) {
+                            // Trừ đi số tiền của Income đã xóa
+                            float newBalance = currentBalance - amount;
+                            walletRef.child("wallet_balance").setValue(newBalance);
+                        }
+                    }
+                });
 
                 mIncomeDatabase.child(post_key).removeValue();
 
@@ -248,3 +278,5 @@ public class IncomeFragment extends Fragment {
     }
 
 }
+
+
