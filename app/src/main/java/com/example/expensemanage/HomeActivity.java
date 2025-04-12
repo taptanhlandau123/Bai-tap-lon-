@@ -19,8 +19,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -79,20 +83,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String uid = mAuth.getCurrentUser().getUid();
         DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
 
-        walletRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().exists()) {
-                String name = task.getResult().child("wallet_name").getValue(String.class);
-                Float balance = task.getResult().child("wallet_balance").getValue(Float.class);
+//        walletRef.get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful() && task.getResult().exists()) {
+//                String name = task.getResult().child("wallet_name").getValue(String.class);
+//                Float balance = task.getResult().child("wallet_balance").getValue(Float.class);
+//                if (name != null && balance != null) {
+//                    tvBalance.setText(String.format("%s: %,.0f VND", name, balance));
+//                }
+//            } else {
+//                Toast.makeText(this, "Không thể lấy dữ liệu ví", Toast.LENGTH_SHORT).show();
+//                if (task.getException() != null) {
+//                    task.getException().printStackTrace(); // In lỗi ra Logcat
+//                }
+//            }
+//        });
+
+        walletRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.child("wallet_name").getValue(String.class);
+                Float balance = snapshot.child("wallet_balance").getValue(Float.class);
                 if (name != null && balance != null) {
                     tvBalance.setText(String.format("%s: %,.0f VND", name, balance));
                 }
-            } else {
-                Toast.makeText(this, "Không thể lấy dữ liệu ví", Toast.LENGTH_SHORT).show();
-                if (task.getException() != null) {
-                    task.getException().printStackTrace(); // In lỗi ra Logcat
-                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(HomeActivity.this, "Không thể lấy dữ liệu ví", Toast.LENGTH_SHORT).show();
+                error.toException().printStackTrace();
             }
         });
+
 
         // Bottom Navigation
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

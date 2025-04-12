@@ -138,18 +138,23 @@ public class ExpenseFragment extends Fragment {
                 holder.setDate(model.getDate());
                 holder.setAmount(model.getAmount());
 
-                int currentposition = holder.getAdapterPosition();
+
 
                 holder.myview.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        post_key = getRef(currentposition).getKey();
-                        type= model.getType();
-                        note= model.getNote();
-                        amount= model.getAmount();
+                        int currentPosition = holder.getBindingAdapterPosition();
+                        if (currentPosition != RecyclerView.NO_POSITION) {
+                            post_key = getRef(currentPosition).getKey();
+                            type= model.getType();
+                            note= model.getNote();
+                            amount= model.getAmount();
 
-                        updateDataItem();
+                            updateDataItem();
+                        }
+
+
                     }
                 });
             }
@@ -218,7 +223,22 @@ public class ExpenseFragment extends Fragment {
                 int intAmount= Integer.parseInt(stAmount);
 
                 String mDate= DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(intAmount, type,post_key,note, mDate);
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
+
+                walletRef.child("wallet_balance").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Float currentBalance = task.getResult().getValue(Float.class);
+                        if (currentBalance != null) {
+                            // Cập nhật số dư tiêu
+                            float newBalance = currentBalance + amount - intAmount;
+                            walletRef.child("wallet_balance").setValue(newBalance);
+                        }
+                    }
+                });
+
+                Data data = new Data(intAmount, type, post_key, note, mDate);
 
                 mExpenseDatabase.child(post_key).setValue(data);
                 dialog.dismiss();
@@ -227,6 +247,22 @@ public class ExpenseFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                // Tham chiếu đến ví hiện tại
+                DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid);
+
+                walletRef.child("wallet_balance").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Float currentBalance = task.getResult().getValue(Float.class);
+                        if (currentBalance != null) {
+                            // Trừ đi số tiền của Income đã xóa
+                            float newBalance = currentBalance + amount;
+                            walletRef.child("wallet_balance").setValue(newBalance);
+                        }
+                    }
+                });
+
                 mExpenseDatabase.child(post_key).removeValue();
 
                 dialog.dismiss();

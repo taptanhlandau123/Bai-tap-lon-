@@ -45,7 +45,7 @@
                     android:id="@+id/income_txt_result"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
-                    android:text="00000.00" />
+                    android:text="00000 VNĐ" />
 
             </RelativeLayout>
 

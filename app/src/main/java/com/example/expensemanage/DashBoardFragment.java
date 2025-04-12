@@ -303,6 +303,10 @@ public class DashBoardFragment extends Fragment {
                 incomeRef.child(id).setValue(data);
                 Toast.makeText(getActivity(), "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
                 ftAnimation();
+
+                //Cập nhật ví
+                updateWalletBalance(+ouramount);
+
                 dialog.dismiss();
 
 
@@ -362,8 +366,10 @@ public class DashBoardFragment extends Fragment {
                 expenseRef.child(id).setValue(data);
                 Toast.makeText(getActivity(), "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
 
-
                 ftAnimation();
+
+                //Cập nhật ví
+                updateWalletBalance(-inamount);
                 dialog.dismiss();
             }
 
@@ -371,6 +377,8 @@ public class DashBoardFragment extends Fragment {
         btnCancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
+
                 ftAnimation();
                 dialog.dismiss();
             }
@@ -469,7 +477,6 @@ public class DashBoardFragment extends Fragment {
     }
 
 
-
     private void loadIncomeData() {
         totalIncome = 0;
 
@@ -547,4 +554,27 @@ public class DashBoardFragment extends Fragment {
 
         barChart.invalidate();
     }
+
+     //Hàm cập nhật số dư ví
+    private void updateWalletBalance(int change) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("wallets").child(uid).child("wallet_balance");
+
+        walletRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Float currentBalance = snapshot.getValue(Float.class);
+                if (currentBalance != null) {
+                    float newBalance = currentBalance + change;
+                    walletRef.setValue(newBalance);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý lỗi nếu cần
+            }
+        });
+    }
+
 }
