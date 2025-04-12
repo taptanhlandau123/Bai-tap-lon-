@@ -218,7 +218,7 @@ public class ExpenseFragment extends Fragment {
                 int intAmount= Integer.parseInt(stAmount);
 
                 String mDate= DateFormat.getDateInstance().format(new Date());
-                Data data = new Data(intAmount, type,  post_key,note, mDate);
+                Data data = new Data(intAmount, type,post_key,note, mDate);
 
                 mExpenseDatabase.child(post_key).setValue(data);
                 dialog.dismiss();
