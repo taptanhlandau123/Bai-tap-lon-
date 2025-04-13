@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
-                    android:text="income " />
+                    android:text="Khoản thu " />
 
             </RelativeLayout>
 
@@ -45,7 +45,7 @@
                     android:id="@+id/income_txt_result"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
-                    android:text="00000 VNĐ" />
+                    android:text="00000 VND" />
 
             </RelativeLayout>
 

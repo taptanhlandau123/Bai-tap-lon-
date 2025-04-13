@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
-                    android:text="expense " />
+                    android:text="Khoản chi " />
 
             </RelativeLayout>
 
@@ -45,7 +45,7 @@
                     android:id="@+id/expense_txt_result"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
-                    android:text="00000.00" />
+                    android:text="0000 VND" />
 
             </RelativeLayout>
 
