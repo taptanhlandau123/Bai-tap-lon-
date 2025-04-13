@@ -34,7 +34,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/holo_red_dark"
-                        android:text="Income"
+                        android:text="Khoản thu "
                         />
 
                 </RelativeLayout>
@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@color/holo_red_dark"
-                        android:text="Expense"
+                        android:text="Khoản chi"
                         />
 
                 </RelativeLayout>

@@ -28,7 +28,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="AMOUNT: "
+                        android:text="Số tiền  : "
                         />
 
                 </RelativeLayout>
@@ -68,7 +68,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TYPE: "
+                        android:text="Nhóm: "
                         />
 
                 </RelativeLayout>
@@ -108,7 +108,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="NOTE: "
+                        android:text="ghi chú: "
                         />
 
                 </RelativeLayout>

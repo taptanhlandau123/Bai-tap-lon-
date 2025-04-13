@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/dashboard"
-        android:title="Dashboard"
+        android:title="Trang Chủ"
         android:icon="@drawable/ic_action_name" />
 
     <item
         android:id="@+id/income"
-        android:title="Income"
+        android:title="Khoản Thu"
         android:icon="@drawable/income" />
 
     <item
         android:id="@+id/expense"
-        android:title="Expense"
+        android:title="Khoản Chi"
         android:icon="@drawable/expense" />
     <item
         android:id="@+id/create_budget"

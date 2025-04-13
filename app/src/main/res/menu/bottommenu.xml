@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Dashboard"
+        android:title="Trang Chủ"
         android:icon="@drawable/ic_action_name"
         android:id="@+id/dashboard"
         />
 
     <item
         android:id="@+id/income"
-        android:title="Income"
+        android:title="Khoản Thu"
         android:icon="@drawable/income"
         />
     <item
         android:id="@+id/expense"
-        android:title="Expense"
+        android:title="Khoản Chi"
         android:icon="@drawable/expense"
         />
     <item
