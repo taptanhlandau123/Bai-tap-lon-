@@ -69,14 +69,6 @@
             android:textSize="18sp"
             android:textColor="@android:color/black" />
 
-        <TextView
-            android:id="@+id/tv_edit_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sửa"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
-            android:padding="8dp" />
     </LinearLayout>
 
     <!-- Số dư -->

@@ -175,7 +175,7 @@ public class DashBoardFragment extends Fragment {
                     Data data = dataSnapshot.getValue(Data.class);
                     totalsum+=data.getAmount();
                     String strResult = String.valueOf(totalsum);
-                    income_set_result.setText(strResult+".00");
+                    income_set_result.setText(strResult);
                 }
             }
 
