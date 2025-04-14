@@ -1,0 +1,251 @@
+{
+  "ExpenseDatabase": {
+    "8rfB9bA55SbDvaoQqDxUcnEDjCo1": {
+      "-ONnLyix4sQXVVM7zg8O": {
+        "amount": 50000000,
+        "date": "Apr 14, 2025",
+        "id": "-ONnLyix4sQXVVM7zg8O",
+        "note": "dgdfg",
+        "type": "Mua nha"
+      }
+    },
+    "HiQHsytAwVfFg2uMa0wu3vMnLoj1": {
+      "-ONnulOPNjNnLLUQ_-ll": {
+        "amount": 9000000,
+        "date": "14 thg 4, 2025",
+        "id": "-ONnulOPNjNnLLUQ_-ll",
+        "note": "hứa ko vượt đèn đỏ nữa",
+        "type": "nộp phạt"
+      },
+      "-ONnuyhna9A3xJEk0M2Y": {
+        "amount": 250000000,
+        "date": "14 thg 4, 2025",
+        "id": "-ONnuyhna9A3xJEk0M2Y",
+        "note": "ăn phở bò dát vàng",
+        "type": "ăn uống"
+      },
+      "-ONnvBVZg4b7SP9xmwsl": {
+        "amount": 35000,
+        "date": "14 thg 4, 2025",
+        "id": "-ONnvBVZg4b7SP9xmwsl",
+        "note": "Đi nét",
+        "type": "Giải trí"
+      }
+    },
+    "QBiz7sRiUCVfdL3YCYttkRzoKTE3": {
+      "-ONOwtfxuGkuL8uxnjPY": {
+        "amount": 1000000,
+        "date": "9 thg 4, 2025",
+        "id": "-ONOwtfxuGkuL8uxnjPY",
+        "note": "111",
+        "type": "11"
+      },
+      "-ONP3Moe6VYD4HPSuBG5": {
+        "amount": 66666,
+        "date": "9 thg 4, 2025",
+        "id": "-ONP3Moe6VYD4HPSuBG5",
+        "note": "lo",
+        "type": "lo"
+      }
+    },
+    "UABkGDelLZNEmFt32J9UIDLXEs13": {
+      "-ONjOm14Bv3Nryg1om-X": {
+        "amount": 800000,
+        "date": "Apr 13, 2025",
+        "id": "-ONjOm14Bv3Nryg1om-X",
+        "note": "sgsdg",
+        "type": "gsdg"
+      },
+      "-ONjOpKSQHGQNCMtb6Hh": {
+        "amount": 10300000,
+        "date": "Apr 13, 2025",
+        "id": "-ONjOpKSQHGQNCMtb6Hh",
+        "note": "dhdf",
+        "type": "fgh"
+      }
+    },
+    "WU1dICp6a2eEvSidVS2IhNaH0iw2": {
+      "-ON_Z2H96VALReVswr8Q": {
+        "amount": 20000,
+        "date": "Apr 12, 2025",
+        "id": "asfasfasfgag",
+        "note": "-ON_Z2H96VALReVswr8Q",
+        "type": "Shopping"
+      }
+    },
+    "jV0ZCRIQR7fmdGgGuyldc0UhYMd2": {
+      "-ONdJbaTnjEkwk_w82C2": {
+        "amount": 30000000,
+        "date": "Apr 12, 2025",
+        "id": "-ONdJbaTnjEkwk_w82C2",
+        "note": "gjggdf",
+        "type": "ghjsd"
+      }
+    },
+    "zEda5nrSnxa7ksUJqEYXg5iFGCi1": {
+      "-ONc1enAcrkHYZPW9UzL": {
+        "amount": 450000,
+        "date": "Apr 12, 2025",
+        "id": "-ONc1enAcrkHYZPW9UzL",
+        "note": "hdghdfg",
+        "type": "dgd"
+      }
+    }
+  },
+  "IncomeData": {
+    "8rfB9bA55SbDvaoQqDxUcnEDjCo1": {
+      "-ONnLqgdjRxMuYS2SAPL": {
+        "amount": 10000000,
+        "date": "Apr 14, 2025",
+        "id": "-ONnLqgdjRxMuYS2SAPL",
+        "note": "Moi nhhan luong",
+        "type": "Luong"
+      }
+    },
+    "HiQHsytAwVfFg2uMa0wu3vMnLoj1": {
+      "-ONnu_Um4Pnq7_gMMgB2": {
+        "amount": 6000000,
+        "date": "14 thg 4, 2025",
+        "id": "-ONnu_Um4Pnq7_gMMgB2",
+        "note": "không có gì",
+        "type": "lương"
+      },
+      "-ONnvHiWvgkW91pn76Cs": {
+        "amount": 2000000,
+        "date": "14 thg 4, 2025",
+        "id": "-ONnvHiWvgkW91pn76Cs",
+        "note": "tiền thưởng tết",
+        "type": "lương"
+      }
+    },
+    "QBiz7sRiUCVfdL3YCYttkRzoKTE3": {
+      "-ONOwx0uxGBI3gEMFzdP": {
+        "amount": 1111,
+        "date": "9 thg 4, 2025",
+        "id": "1dzz",
+        "note": "-ONOwx0uxGBI3gEMFzdP",
+        "type": "1111"
+      },
+      "-ONOxvCDJQjjJi74ZSEf": {
+        "amount": 1000000,
+        "date": "9 thg 4, 2025",
+        "id": "kii",
+        "note": "-ONOxvCDJQjjJi74ZSEf",
+        "type": "lk"
+      },
+      "-ONP3TXRed-zgk7CJiLs": {
+        "amount": 66699,
+        "date": "9 thg 4, 2025",
+        "id": "lop",
+        "note": "-ONP3TXRed-zgk7CJiLs",
+        "type": "lô"
+      },
+      "-ONTTgWHV0uB_JAza8jG": {
+        "amount": 3333,
+        "date": "10 thg 4, 2025",
+        "id": "-ONTTgWHV0uB_JAza8jG",
+        "note": "hshwjw",
+        "type": "ján"
+      }
+    },
+    "UABkGDelLZNEmFt32J9UIDLXEs13": {
+      "-ONd5psl2xDQUHHRpPyt": {
+        "amount": 20000,
+        "date": "Apr 12, 2025",
+        "id": "-ONd5psl2xDQUHHRpPyt",
+        "note": "gfhf",
+        "type": "hfgh"
+      },
+      "-ONd9RLC88fx_3V4YDk_": {
+        "amount": 40000,
+        "date": "Apr 12, 2025",
+        "id": "-ONd9RLC88fx_3V4YDk_",
+        "note": "fghfg",
+        "type": "fhf"
+      },
+      "-ONjTtx_3EPDVq1xFIwF": {
+        "amount": 500000,
+        "date": "Apr 13, 2025",
+        "id": "-ONjTtx_3EPDVq1xFIwF",
+        "note": "dhgfh",
+        "type": "dghf"
+      }
+    },
+    "WU1dICp6a2eEvSidVS2IhNaH0iw2": {
+      "-ON_mnhoEEmlTGv-fQB7": {
+        "amount": 100000,
+        "date": "Apr 11, 2025",
+        "id": "-ON_mnhoEEmlTGv-fQB7",
+        "note": "fag23",
+        "type": "Salary"
+      }
+    },
+    "jV0ZCRIQR7fmdGgGuyldc0UhYMd2": {
+      "-ONdJ_HIxuAOk75KekK9": {
+        "amount": 500000,
+        "date": "Apr 12, 2025",
+        "id": "-ONdJ_HIxuAOk75KekK9",
+        "note": "hfhfghgd",
+        "type": "dgdf"
+      }
+    },
+    "zEda5nrSnxa7ksUJqEYXg5iFGCi1": {
+      "-ONcKaXR5Re2_QKzTGlh": {
+        "amount": 40000,
+        "date": "Apr 12, 2025",
+        "id": "-ONcKaXR5Re2_QKzTGlh",
+        "note": "dfgdfgdf",
+        "type": "dgdf"
+      }
+    }
+  },
+  "budgets": {
+    "8rfB9bA55SbDvaoQqDxUcnEDjCo1": {
+      "04-2025": {
+        "amount": 20000000,
+        "month": "04-2025",
+        "spent": 50000000
+      }
+    },
+    "HiQHsytAwVfFg2uMa0wu3vMnLoj1": {
+      "04-2025": {
+        "amount": 5000000,
+        "month": "04-2025"
+      }
+    }
+  },
+  "wallets": {
+    "8rfB9bA55SbDvaoQqDxUcnEDjCo1": {
+      "wallet_balance": 100000000,
+      "wallet_name": "Lam"
+    },
+    "HiQHsytAwVfFg2uMa0wu3vMnLoj1": {
+      "wallet_balance": -246035008,
+      "wallet_name": "Trần Kiên"
+    },
+    "UABkGDelLZNEmFt32J9UIDLXEs13": {
+      "wallet_balance": 225500,
+      "wallet_name": "Trai"
+    },
+    "WU1dICp6a2eEvSidVS2IhNaH0iw2": {
+      "wallet_balance": 1800000,
+      "wallet_name": "Kien"
+    },
+    "jV0ZCRIQR7fmdGgGuyldc0UhYMd2": {
+      "wallet_balance": -9500000,
+      "wallet_name": "Trang"
+    },
+    "kl6J0h3edeOto4OK2S8gXyeULCG3": {
+      "wallet_balance": 2000000,
+      "wallet_name": "Linh"
+    },
+    "tQCq6ELtt4grh8EISU2pYBMi5PJ3": {
+      "wallet_balance": 1500000,
+      "wallet_name": "Loc"
+    },
+    "zEda5nrSnxa7ksUJqEYXg5iFGCi1": {
+      "wallet_balance": 5130000,
+      "wallet_name": "Thanh"
+    }
+  }
+}
